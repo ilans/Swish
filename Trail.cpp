@@ -1,6 +1,6 @@
 #include "Trail.h"
 
-extern Adafruit_NeoPixel strip;
+// extern Adafruit_NeoPixel strip;
 
 Trail::Trail(uint8_t _r, uint8_t _g, uint8_t _b, int _origin, int _target){
   r = _r;
@@ -23,12 +23,12 @@ bool Trail::move(){
     move_time = cur_time+wait_time;
     for(int j=0; j<=length; j++) {
       if(move_right){
-        strip.setPixelColor(pix-j, strip.Color(r-j*r_fade, g-j*g_fade, b-j*b_fade));
+        // strip.setPixelColor(pix-j, strip.Color(r-j*r_fade, g-j*g_fade, b-j*b_fade));
       } else {
-        strip.setPixelColor(strip.numPixels()-1-(pix-j), strip.Color(r-j*r_fade, g-j*g_fade, b-j*b_fade));
+        // strip.setPixelColor(strip.numPixels()-1-(pix-j), strip.Color(r-j*r_fade, g-j*g_fade, b-j*b_fade));
       }
     }
-    strip.show();
+    // strip.show();
     pix += move_right ? 1 : -1;
     if(pix==target) return true;
   }
