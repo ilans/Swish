@@ -8,7 +8,7 @@
  #include <pins_arduino.h>
 #endif
 
-// #include <Adafruit_NeoPixel.h>
+#include <Adafruit_NeoPixel.h>
 
 class Trail{
 public:

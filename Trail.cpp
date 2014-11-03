@@ -1,6 +1,6 @@
 #include "Trail.h"
 
-// extern Adafruit_NeoPixel strip;
+extern Adafruit_NeoPixel strip;
 
 Trail::Trail(uint8_t _r, uint8_t _g, uint8_t _b, int _origin, int _target){
   r = _r;
