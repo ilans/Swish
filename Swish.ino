@@ -1,32 +1,27 @@
 #include <Adafruit_NeoPixel.h>
 
-// #include <AltSoftSerial.h>
-
 #include "Trail.h"
 
 #include <StandardCplusplus.h>
-#include <serstream>
-#include <string>
 #include <vector>
-#include <iterator>
-#include <avr/pgmspace.h>
+// #include <iterator>
+// #include <avr/pgmspace.h>
 
 #define PIN 10
+int strip_len = 150;
 
-// std::basic_oserialstream<char, std::char_traits<char>, Serial_> cout(Serial);
 using namespace std;
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(150, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(strip_len, PIN, NEO_GRB + NEO_KHZ800);
 
 // byte prebytes[] = {0x02, 0x31, 0x32, 0x30, 0x30, 0x37};
 byte prebytes[] = {0x30, 0x30, 0x37};
-// int rfid_locations[] = {2,26,46,67,86,109,127,145};
-int rfid_locations[] = {0,22,44,66,87,108,129,149};
-// AltSoftSerial altSerial;
+int rfid_locations[] = {0,22,44,66,87,108,129,148};
 int antenna_num = 0;
 vector<Trail> trails;
 
 void setup() {
+  delay(1000);
   Serial.begin(9600);
 
   for(int i=0 ; i<3 ; i++){
@@ -34,32 +29,41 @@ void setup() {
     digitalWrite(i+4,0);
   }
 
-  // altSerial.begin(9600);
 
   strip.begin();
   strip.setBrightness(255);
   strip.show();
 
-  for(int r=0; r<8; r++){
-    int first_pix = rfid_locations[r];
-    for(int i=0; i<2; i++){
-      strip.setPixelColor(first_pix+i, strip.Color(0,0,255));
-    }
-  }
-  strip.show();
+  // for(int r=0; r<8; r++){
+  //   int first_pix = rfid_locations[r];
+  //   for(int i=0; i<2; i++){
+  //     strip.setPixelColor(first_pix+i, strip.Color(0,0,255));
+  //   }
+  // }
+  // strip.show();
 
 
-  // trails.push_back(Trail(173,255,47,rfid_locations[1],rfid_locations[6]));
+  trails.push_back(Trail(173,255,47,rfid_locations[6],rfid_locations[1], false));
+  trails.push_back(Trail(173,255,47,rfid_locations[4],rfid_locations[2], true));
+
+  Serial.println("Starting");
 }
 
 void loop() {
-  // for(int i=0; i<trails.size(); i++){ trails[i].move(); }
 
-  readSerialMux();
-  antenna_num++;
-  if(antenna_num == 8){
-    antenna_num = 0;
+  for(int i=0; i<trails.size(); i++){
+    if(trails[i].move()){
+      trails.erase(trails.begin()+i);
+      Serial.print("trails size ");
+      Serial.println(trails.size());
+    }
   }
+
+  // readSerialMux();
+  // antenna_num++;
+  // if(antenna_num == 8){
+  //   antenna_num = 0;
+  // }
 }
 
 void readSerialMux(){
@@ -73,12 +77,9 @@ void readSerialMux(){
     digitalWrite(i+4,bitRead(antenna_num,i));
   }
 
-  //clear buffer
-  // altSerial.flushInput();
-
-  //wait for data to arrive
+  //allow data to arrive
   delay(3);
-  unsigned long mil = millis();
+  // unsigned long mil = millis();
 
   while (Serial.available()>0) {
     byte b = Serial.read();
