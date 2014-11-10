@@ -1,6 +1,6 @@
 {
     "arduino_folder": "C:\\Program Files (x86)\\arduino", 
-    "baudrate": 4, 
+    "baudrate": 10, 
     "board": 6, 
     "board_option": {
         "1.2": [
@@ -13,5 +13,5 @@
     "full_compilation": true, 
     "platform": 2, 
     "platform_name": "Arduino AVR Boards", 
-    "serial_port": 0
+    "serial_port": 1
 }
