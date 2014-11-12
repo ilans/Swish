@@ -36,7 +36,7 @@ void readSerialNew(SoftwareSerial& ser){
   while (ser.available()>0){
     byte b = ser.read();
     if(b == 0x02){
-      Serial.print("found");
+      // Serial.print("found");
       found = true;
     } else if(found){
       if(count>=5){
@@ -44,12 +44,23 @@ void readSerialNew(SoftwareSerial& ser){
       }
       count++;
       if (count==12){
-        Serial.write(antenna_num+1);
-        PrintTag(bytes);
+        // Serial.write(antenna_num+1);
+        // PrintTag(bytes);
+        SendTag(bytes);
         break;
       }
     }
   }
+}
+
+void SendTag(byte bytes[]){
+  int sum = 0;
+  for (int i=0 ; i<7 ; i++){
+    sum += bytes[i];
+  }
+  Serial.print(antenna_num);
+  Serial.print(",");
+  Serial.println(sum);
 }
 
 void PrintTag(byte bytes[]){

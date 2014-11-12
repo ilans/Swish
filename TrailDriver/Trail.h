@@ -13,15 +13,15 @@ public:
   int origin;
   int target;
 
-  Trail(uint8_t _r, uint8_t _g, uint8_t _b, int _o, int _t, bool _d,  float _l = 30.0, float _m = 0.05);
+  Trail(uint8_t _r, uint8_t _g, uint8_t _b, int _o, int _t, bool _d,  float _l = 18.0, float _m = 0.05);
   bool move();
 
 private:
   float r_fade;
   float g_fade;
   float b_fade;
-  float leds_per_mil = 0.05;
-  float length = 30.0;
+  float leds_per_mil;
+  float length;
   uint8_t r;
   uint8_t g;
   uint8_t b;
